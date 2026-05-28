@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Mbaca" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="colorSecondaryVariant">@color/secondary</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnBackground">@color/text_primary_dark</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+
+        <item name="android:statusBarColor">@color/surface_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/white</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Mbaca.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Mbaca.MediumComponent</item>
+
+        <item name="bottomNavigationStyle">@style/Widget.Mbaca.BottomNavigationView.Dark</item>
+        <item name="toolbarStyle">@style/Widget.Mbaca.Toolbar.Dark</item>
+    </style>
+
+    <style name="Widget.Mbaca.BottomNavigationView.Dark" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_color_dark</item>
+        <item name="itemTextColor">@color/bottom_nav_color_dark</item>
+        <item name="itemRippleColor">@color/primary</item>
+        <item name="android:background">@color/surface_dark</item>
+        <item name="elevation">8dp</item>
+    </style>
+
+    <style name="Widget.Mbaca.Toolbar.Dark" parent="Widget.Material3.Toolbar">
+        <item name="titleTextColor">@color/text_primary_dark</item>
+        <item name="android:background">@color/surface_dark</item>
+        <item name="navigationIconTint">@color/text_primary_dark</item>
+    </style>
+</resources>
+
