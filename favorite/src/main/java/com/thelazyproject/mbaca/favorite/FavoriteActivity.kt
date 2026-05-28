@@ -8,9 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.play.core.splitcompat.SplitCompat
+import com.thelazyproject.mbaca.core.di.entry.FavoriteEntryPoint
 import com.thelazyproject.mbaca.core.ui.NovelAdapter
 import com.thelazyproject.mbaca.core.utils.NavigationHelper
-import com.thelazyproject.mbaca.di.FavoriteEntryPoint
 import com.thelazyproject.mbaca.favorite.databinding.ActivityFavoriteBinding
 import dagger.hilt.android.EntryPointAccessors
 
