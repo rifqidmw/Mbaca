@@ -18,6 +18,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    dynamicFeatures += setOf(":favorite")
 
     buildTypes {
         release {
@@ -49,7 +50,6 @@ configurations.all {
 
 dependencies {
     implementation(project(":core"))
-    runtimeOnly(project(":favorite"))
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.navigation.dynamic.features)
+
+    implementation(libs.feature.delivery.ktx)
 
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)

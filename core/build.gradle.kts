@@ -44,6 +44,7 @@ dependencies {
     api(libs.material)
 
     api(libs.hilt.android)
+    implementation(libs.feature.delivery.ktx)
     ksp(libs.hilt.compiler)
 
     api(libs.retrofit)

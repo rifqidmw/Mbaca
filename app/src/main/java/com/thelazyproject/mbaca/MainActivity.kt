@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
 
         binding.fabFavorite.setOnClickListener {
-            NavigationHelper.navigateToFavorite(this)
+            NavigationHelper.installFavoriteModule(this)
         }
     }
 

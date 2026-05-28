@@ -1,8 +1,6 @@
 plugins {
-    id("com.android.library")
+    alias(libs.plugins.android.dynamic.feature)
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -27,6 +25,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildFeatures {
         viewBinding = true
     }
@@ -37,6 +38,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":app"))
     implementation(project(":core"))
 
     implementation(libs.androidx.core.ktx)
@@ -46,8 +48,11 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.recyclerview)
 
+    // Hilt untuk EntryPoint (tanpa code generation)
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+
+    // Dynamic Feature support
+    implementation(libs.feature.delivery.ktx)
 
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
@@ -57,14 +62,3 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-
-
-
-
-
-
-
-
-
-
-

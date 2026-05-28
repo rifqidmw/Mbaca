@@ -24,3 +24,4 @@ rootProject.name = "Mbaca"
 include(":app")
 include(":core")
 include(":favorite")
+include(":dynamicfeature")
