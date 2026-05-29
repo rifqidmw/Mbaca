@@ -55,6 +55,9 @@ dependencies {
     api(libs.room.ktx)
     ksp(libs.room.compiler)
 
+    api(libs.sqlcipher.android)
+    api(libs.androidx.sqlite)
+
     api(libs.lifecycle.viewmodel.ktx)
     api(libs.lifecycle.livedata.ktx)
     api(libs.lifecycle.runtime.ktx)

@@ -17,7 +17,7 @@ interface NovelDao {
     fun getFavoriteNovels(): Flow<List<NovelEntity>>
 
     @Query("SELECT * FROM novels WHERE id = :id")
-    fun getNovelById(id: String): Flow<NovelEntity>
+    fun getNovelById(id: String): Flow<NovelEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNovels(novels: List<NovelEntity>)

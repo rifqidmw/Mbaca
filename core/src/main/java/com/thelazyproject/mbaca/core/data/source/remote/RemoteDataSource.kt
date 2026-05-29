@@ -17,5 +17,9 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         val response = apiService.getNovels(page = page, search = query, topic = null)
         return response.results ?: emptyList()
     }
+
+    suspend fun getNovelById(id: String): NovelResponse {
+        return apiService.getNovelById(id)
+    }
 }
 

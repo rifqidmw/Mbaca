@@ -1,44 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Modern Color Palette -->
-    <!-- Primary Colors - Vibrant Purple/Indigo -->
-    <color name="primary">#6C63FF</color>
-    <color name="primary_dark">#5048E5</color>
-    <color name="primary_light">#9D97FF</color>
+    <color name="primary">#FF6B6B</color>
+    <color name="primary_dark">#EE5A6F</color>
+    <color name="primary_light">#FF8E8E</color>
 
-    <!-- Secondary Colors - Fresh Teal -->
-    <color name="secondary">#26D0CE</color>
-    <color name="secondary_dark">#1AB7B5</color>
-    <color name="secondary_light">#5FDBDA</color>
+    <color name="secondary">#4ECDC4</color>
+    <color name="secondary_dark">#45B8B0</color>
+    <color name="secondary_light">#7FD9D3</color>
 
-    <!-- Accent Colors -->
-    <color name="accent">#FF6B9D</color>
+    <color name="accent">#FFE66D</color>
 
-    <!-- Background Colors - Light Theme -->
-    <color name="background_light">#F8F9FA</color>
+    <color name="background_light">#F7F7F7</color>
     <color name="surface_light">#FFFFFF</color>
-    <color name="surface_variant_light">#F1F3F5</color>
+    <color name="surface_variant_light">#F0F0F0</color>
 
-    <!-- Text Colors - Light Theme -->
-    <color name="text_primary_light">#1A1A1A</color>
-    <color name="text_secondary_light">#6B7280</color>
+    <color name="text_primary_light">#2D3748</color>
+    <color name="text_secondary_light">#718096</color>
 
-    <!-- Background Colors - Dark Theme -->
-    <color name="background_dark">#121212</color>
-    <color name="surface_dark">#1E1E1E</color>
-    <color name="surface_variant_dark">#2A2A2A</color>
+    <color name="background_dark">#1A202C</color>
+    <color name="surface_dark">#2D3748</color>
+    <color name="surface_variant_dark">#374151</color>
 
-    <!-- Text Colors - Dark Theme -->
-    <color name="text_primary_dark">#F8F9FA</color>
-    <color name="text_secondary_dark">#B0B8C1</color>
+    <color name="text_primary_dark">#F7FAFC</color>
+    <color name="text_secondary_dark">#A0AEC0</color>
 
-    <!-- Basic Colors -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- Status Colors -->
-    <color name="error">#EF4444</color>
-    <color name="success">#10B981</color>
-    <color name="warning">#F59E0B</color>
+    <color name="error">#F56565</color>
+    <color name="success">#48BB78</color>
+    <color name="warning">#ED8936</color>
 </resources>
 

@@ -4,75 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:rippleColor="?attr/colorPrimary"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/ivCover"
-            android:layout_width="80dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
+        <!-- Book Cover with Modern Styling -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCover"
+            android:layout_width="90dp"
+            android:layout_height="135dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_launcher_background" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/ivCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/book_cover"
+                tools:src="@drawable/ic_launcher_background" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Title with Modern Typography -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:fontFamily="sans-serif-medium"
+            android:lineSpacingExtra="2dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivCover"
-            app:layout_constraintTop_toTopOf="@id/ivCover"
+            app:layout_constraintStart_toEndOf="@id/cardCover"
+            app:layout_constraintTop_toTopOf="@id/cardCover"
             tools:text="The Great Gatsby" />
+
+        <!-- Author with Icon -->
+        <ImageView
+            android:id="@+id/iconAuthor"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:tint="?attr/colorOnSurfaceVariant"
+            android:contentDescription="@string/author"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
         <TextView
             android:id="@+id/tvAuthor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="6dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            tools:text="F. Scott Fitzgerald" />
+            app:layout_constraintStart_toEndOf="@id/iconAuthor"
+            app:layout_constraintTop_toTopOf="@id/iconAuthor"
+            app:layout_constraintBottom_toBottomOf="@id/iconAuthor"
+            tools:text="by F. Scott Fitzgerald" />
 
-        <TextView
+        <!-- Category Chip with Modern Styling -->
+        <com.google.android.material.chip.Chip
             android:id="@+id/tvCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvAuthor"
-            tools:text="Fiction" />
-
-        <TextView
-            android:id="@+id/labelRating"
+            style="@style/Widget.Material3.Chip.Assist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Rating: "
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
+            android:textSize="11sp"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            app:chipBackgroundColor="?attr/colorSecondaryContainer"
+            app:chipCornerRadius="8dp"
+            app:chipMinHeight="28dp"
+            app:chipStartPadding="8dp"
+            app:chipEndPadding="8dp"
+            app:textStartPadding="0dp"
+            app:textEndPadding="0dp"
+            app:ensureMinTouchTargetSize="false"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/iconAuthor"
+            tools:text="Fiction" />
+
+        <!-- Rating with Star Icon -->
+        <ImageView
+            android:id="@+id/iconRating"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="12dp"
+            android:src="@android:drawable/star_on"
+            android:tint="?attr/colorTertiary"
+            android:contentDescription="@string/rating"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
             app:layout_constraintTop_toBottomOf="@id/tvCategory" />
 
@@ -80,12 +123,28 @@
             android:id="@+id/tvRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="12sp"
+            android:layout_marginStart="4dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorTertiary"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelRating"
-            app:layout_constraintTop_toTopOf="@id/labelRating"
-            tools:text="4.5" />
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintStart_toEndOf="@id/iconRating"
+            app:layout_constraintTop_toTopOf="@id/iconRating"
+            app:layout_constraintBottom_toBottomOf="@id/iconRating"
+            tools:text="★ 4.5" />
+
+        <!-- Favorite Indicator (Optional) -->
+        <ImageView
+            android:id="@+id/iconFavorite"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@android:drawable/star_big_on"
+            android:tint="?attr/colorError"
+            android:visibility="gone"
+            android:contentDescription="@string/favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

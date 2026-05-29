@@ -70,13 +70,45 @@ class NovelRepository @Inject constructor(
             .map { DataMapper.mapEntitiesToDomain(it) }
     }
 
-    override fun getNovelById(id: String): Flow<Novel> {
+    override fun getNovelById(id: String): Flow<Novel?> {
         return localDataSource.getNovelById(id)
             .map { DataMapper.mapEntityToDomain(it) }
     }
 
+    override fun getNovelDetailFromRemote(id: String): Flow<Resource<Novel>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val remoteData = remoteDataSource.getNovelById(id)
+            val novel = DataMapper.mapResponseToDomain(remoteData)
+
+            val localNovel = localDataSource.getNovelById(id).first()
+            val novelWithFavorite = if (localNovel != null) {
+                novel.copy(isFavorite = localNovel.isFavorite)
+            } else {
+                novel
+            }
+
+            emit(Resource.Success(novelWithFavorite))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "Failed to load book details"))
+        }
+    }
+
     override suspend fun setFavoriteNovel(id: String, isFavorite: Boolean) {
-        localDataSource.updateFavoriteStatus(id, isFavorite)
+        val localNovel = localDataSource.getNovelById(id).first()
+
+        if (localNovel != null) {
+            localDataSource.updateFavoriteStatus(id, isFavorite)
+        } else {
+            try {
+                val remoteData = remoteDataSource.getNovelById(id)
+                val novelEntity = DataMapper.mapResponseToEntity(remoteData).copy(isFavorite = isFavorite)
+                localDataSource.insertNovels(listOf(novelEntity))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }
 

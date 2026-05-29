@@ -13,7 +13,7 @@ class LocalDataSource @Inject constructor(private val novelDao: NovelDao) {
 
     fun getFavoriteNovels(): Flow<List<NovelEntity>> = novelDao.getFavoriteNovels()
 
-    fun getNovelById(id: String): Flow<NovelEntity> = novelDao.getNovelById(id)
+    fun getNovelById(id: String): Flow<NovelEntity?> = novelDao.getNovelById(id)
 
     suspend fun insertNovels(novels: List<NovelEntity>) = novelDao.insertNovels(novels)
 

@@ -10,13 +10,17 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thelazyproject.mbaca.core.data.Resource
-import com.thelazyproject.mbaca.core.ui.NovelAdapter
 import com.thelazyproject.mbaca.core.utils.NavigationHelper
 import com.thelazyproject.mbaca.databinding.FragmentNovelBinding
+import com.thelazyproject.mbaca.ui.adapter.NovelUiAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NovelFragment : Fragment() {
@@ -24,7 +28,7 @@ class NovelFragment : Fragment() {
     private var _binding: FragmentNovelBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NovelViewModel by viewModels()
-    private lateinit var novelAdapter: NovelAdapter
+    private lateinit var novelAdapter: NovelUiAdapter
     private var isLoadingMore = false
 
     override fun onCreateView(
@@ -40,13 +44,13 @@ class NovelFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        setupSearch()
+        setupReactiveSearch()
         observeNovels()
         observeLoadMore()
     }
 
     private fun setupRecyclerView() {
-        novelAdapter = NovelAdapter()
+        novelAdapter = NovelUiAdapter()
         val layoutManager = LinearLayoutManager(requireContext())
 
         binding.rvNovels.apply {
@@ -77,7 +81,25 @@ class NovelFragment : Fragment() {
         }
     }
 
-    private fun setupSearch() {
+    /**
+     * Setup reactive search with automatic debounce
+     * Search is triggered automatically after user stops typing (500ms delay)
+     */
+    private fun setupReactiveSearch() {
+        // TextWatcher for reactive search
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.ivClearSearch.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                // Update search query in ViewModel (triggers reactive search automatically)
+                viewModel.updateSearchQuery(s?.toString() ?: "")
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        // Keep manual search on Enter key press
         binding.etSearch.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                 (event?.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -92,13 +114,6 @@ class NovelFragment : Fragment() {
             }
         }
 
-        binding.etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.ivClearSearch.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
 
         binding.ivClearSearch.setOnClickListener {
             binding.etSearch.text?.clear()
@@ -106,36 +121,43 @@ class NovelFragment : Fragment() {
         }
     }
 
+    /**
+     * Observe novels using StateFlow (reactive programming)
+     */
     private fun observeNovels() {
-        viewModel.novels.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.rvNovels.visibility = View.GONE
-                    binding.tvError.visibility = View.GONE
-                    binding.tvNoResults.visibility = View.GONE
-                }
-                is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.tvError.visibility = View.GONE
-                    
-                    resource.data?.let { novels ->
-                        if (novels.isEmpty()) {
-                            binding.tvNoResults.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.novels.collect { resource ->
+                    when (resource) {
+                        is Resource.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
                             binding.rvNovels.visibility = View.GONE
-                        } else {
+                            binding.tvError.visibility = View.GONE
                             binding.tvNoResults.visibility = View.GONE
-                            binding.rvNovels.visibility = View.VISIBLE
-                            novelAdapter.setData(novels)
+                        }
+                        is Resource.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            binding.tvError.visibility = View.GONE
+
+                            resource.data?.let { novels ->
+                                if (novels.isEmpty()) {
+                                    binding.tvNoResults.visibility = View.VISIBLE
+                                    binding.rvNovels.visibility = View.GONE
+                                } else {
+                                    binding.tvNoResults.visibility = View.GONE
+                                    binding.rvNovels.visibility = View.VISIBLE
+                                    novelAdapter.setData(novels)
+                                }
+                            }
+                        }
+                        is Resource.Error -> {
+                            binding.progressBar.visibility = View.GONE
+                            binding.rvNovels.visibility = View.GONE
+                            binding.tvNoResults.visibility = View.GONE
+                            binding.tvError.visibility = View.VISIBLE
+                            binding.tvError.text = resource.message
                         }
                     }
-                }
-                is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.rvNovels.visibility = View.GONE
-                    binding.tvNoResults.visibility = View.GONE
-                    binding.tvError.visibility = View.VISIBLE
-                    binding.tvError.text = resource.message
                 }
             }
         }

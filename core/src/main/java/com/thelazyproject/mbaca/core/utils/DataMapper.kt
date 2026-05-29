@@ -7,31 +7,33 @@ import com.thelazyproject.mbaca.core.domain.model.Novel
 object DataMapper {
 
     fun mapResponsesToEntities(responses: List<NovelResponse>): List<NovelEntity> {
-        return responses.map { response ->
-            val authorName = response.authors?.firstOrNull()?.name ?: "Unknown Author"
-            val imageUrl = response.formats?.get("image/jpeg") ?: ""
-            val category = response.subjects?.firstOrNull() ?:
-                          response.bookshelves?.firstOrNull() ?: "Fiction"
-            val downloadCount = response.downloadCount ?: 0
-            val rating = if (downloadCount > 0) {
-                minOf(5.0, (downloadCount / 1000.0).coerceAtLeast(1.0))
-            } else {
-                0.0
-            }
+        return responses.map { response -> mapResponseToEntity(response) }
+    }
 
-            NovelEntity(
-                id = response.id.toString(),
-                title = response.title ?: "Unknown Title",
-                author = authorName,
-                description = buildDescription(response),
-                image = imageUrl,
-                publishedDate = getPublishedYear(response),
-                pageCount = 0,
-                category = category,
-                rating = rating,
-                isFavorite = false
-            )
+    fun mapResponseToEntity(response: NovelResponse): NovelEntity {
+        val authorName = response.authors?.firstOrNull()?.name ?: "Unknown Author"
+        val imageUrl = response.formats?.get("image/jpeg") ?: ""
+        val category = response.subjects?.firstOrNull() ?:
+                      response.bookshelves?.firstOrNull() ?: "Fiction"
+        val downloadCount = response.downloadCount ?: 0
+        val rating = if (downloadCount > 0) {
+            minOf(5.0, (downloadCount / 1000.0).coerceAtLeast(1.0))
+        } else {
+            0.0
         }
+
+        return NovelEntity(
+            id = response.id.toString(),
+            title = response.title ?: "Unknown Title",
+            author = authorName,
+            description = buildDescription(response),
+            image = imageUrl,
+            publishedDate = getPublishedYear(response),
+            pageCount = 0,
+            category = category,
+            rating = rating,
+            isFavorite = false
+        )
     }
 
     private fun buildDescription(response: NovelResponse): String {
@@ -92,46 +94,50 @@ object DataMapper {
     }
 
     fun mapResponsesToDomain(responses: List<NovelResponse>): List<Novel> {
-        return responses.map { response ->
-            val authorName = response.authors?.firstOrNull()?.name ?: "Unknown Author"
-            val imageUrl = response.formats?.get("image/jpeg") ?: ""
-            val category = response.subjects?.firstOrNull() ?:
-                          response.bookshelves?.firstOrNull() ?: "Fiction"
-            val downloadCount = response.downloadCount ?: 0
-            val rating = if (downloadCount > 0) {
-                minOf(5.0, (downloadCount / 1000.0).coerceAtLeast(1.0))
-            } else {
-                0.0
-            }
-
-            Novel(
-                id = response.id.toString(),
-                title = response.title ?: "Unknown Title",
-                author = authorName,
-                description = buildDescription(response),
-                image = imageUrl,
-                publishedDate = getPublishedYear(response),
-                pageCount = 0,
-                category = category,
-                rating = rating,
-                isFavorite = false
-            )
-        }
+        return responses.map { response -> mapResponseToDomain(response) }
     }
 
-    fun mapEntityToDomain(entity: NovelEntity): Novel {
+    fun mapResponseToDomain(response: NovelResponse): Novel {
+        val authorName = response.authors?.firstOrNull()?.name ?: "Unknown Author"
+        val imageUrl = response.formats?.get("image/jpeg") ?: ""
+        val category = response.subjects?.firstOrNull() ?:
+                      response.bookshelves?.firstOrNull() ?: "Fiction"
+        val downloadCount = response.downloadCount ?: 0
+        val rating = if (downloadCount > 0) {
+            minOf(5.0, (downloadCount / 1000.0).coerceAtLeast(1.0))
+        } else {
+            0.0
+        }
+
         return Novel(
-            id = entity.id,
-            title = entity.title,
-            author = entity.author,
-            description = entity.description,
-            image = entity.image,
-            publishedDate = entity.publishedDate,
-            pageCount = entity.pageCount,
-            category = entity.category,
-            rating = entity.rating,
-            isFavorite = entity.isFavorite
+            id = response.id.toString(),
+            title = response.title ?: "Unknown Title",
+            author = authorName,
+            description = buildDescription(response),
+            image = imageUrl,
+            publishedDate = getPublishedYear(response),
+            pageCount = 0,
+            category = category,
+            rating = rating,
+            isFavorite = false
         )
+    }
+
+    fun mapEntityToDomain(entity: NovelEntity?): Novel? {
+        return entity?.let {
+            Novel(
+                id = it.id,
+                title = it.title,
+                author = it.author,
+                description = it.description,
+                image = it.image,
+                publishedDate = it.publishedDate,
+                pageCount = it.pageCount,
+                category = it.category,
+                rating = it.rating,
+                isFavorite = it.isFavorite
+            )
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.thelazyproject.mbaca.core.di
 
 import com.thelazyproject.mbaca.core.data.source.remote.network.ApiService
+import com.thelazyproject.mbaca.core.security.SSLCertificatePinner
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +22,7 @@ class NetworkModule {
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .certificatePinner(SSLCertificatePinner.getCertificatePinner())
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()

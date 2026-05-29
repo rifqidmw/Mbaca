@@ -18,7 +18,10 @@ class NovelUseCase @Inject constructor(private val novelRepository: INovelReposi
 
     fun getFavoriteNovels(): Flow<List<Novel>> = novelRepository.getFavoriteNovels()
 
-    fun getNovelById(id: String): Flow<Novel> = novelRepository.getNovelById(id)
+    fun getNovelById(id: String): Flow<Novel?> = novelRepository.getNovelById(id)
+
+    fun getNovelDetailFromRemote(id: String): Flow<Resource<Novel>> =
+        novelRepository.getNovelDetailFromRemote(id)
 
     suspend fun setFavoriteNovel(id: String, isFavorite: Boolean) =
         novelRepository.setFavoriteNovel(id, isFavorite)

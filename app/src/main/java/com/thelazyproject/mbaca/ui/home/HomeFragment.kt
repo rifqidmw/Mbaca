@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thelazyproject.mbaca.core.data.Resource
-import com.thelazyproject.mbaca.core.ui.NovelAdapter
 import com.thelazyproject.mbaca.core.utils.NavigationHelper
 import com.thelazyproject.mbaca.databinding.FragmentHomeBinding
+import com.thelazyproject.mbaca.ui.adapter.NovelUiAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,8 +19,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var recentAdapter: NovelAdapter
-    private lateinit var popularAdapter: NovelAdapter
+    private lateinit var recentAdapter: NovelUiAdapter
+    private lateinit var popularAdapter: NovelUiAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        recentAdapter = NovelAdapter()
+        recentAdapter = NovelUiAdapter()
         binding.rvRecentNovels.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = recentAdapter
@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
             NavigationHelper.navigateToDetail(requireContext(), novel.id)
         }
 
-        popularAdapter = NovelAdapter()
+        popularAdapter = NovelUiAdapter()
         binding.rvPopularNovels.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = popularAdapter

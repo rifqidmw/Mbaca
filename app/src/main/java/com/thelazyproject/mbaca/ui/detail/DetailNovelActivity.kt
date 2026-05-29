@@ -3,11 +3,14 @@ package com.thelazyproject.mbaca.ui.detail
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.thelazyproject.mbaca.R
+import com.thelazyproject.mbaca.core.data.Resource
 import com.thelazyproject.mbaca.core.utils.NavigationHelper
 import com.thelazyproject.mbaca.databinding.ActivityDetailNovelBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,24 +45,45 @@ class DetailNovelActivity : AppCompatActivity() {
     }
 
     private fun observeNovelDetail() {
-        viewModel.getNovelById(novelId).observe(this) { novel ->
-            novel?.let {
-                binding.apply {
-                    tvTitle.text = it.title
-                    tvAuthor.text = it.author
-                    tvCategory.text = it.category
-                    tvPublished.text = it.publishedDate
-                    tvPages.text = it.pageCount.toString()
-                    tvRating.text = it.rating.toString()
-                    tvDescription.text = it.description
+        viewModel.getNovelDetailFromRemote(novelId).observe(this) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.contentLayout.visibility = View.GONE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.contentLayout.visibility = View.VISIBLE
 
-                    Glide.with(this@DetailNovelActivity)
-                        .load(it.image)
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .into(ivCover)
+                    resource.data?.let { novel ->
+                        binding.apply {
+                            tvTitle.text = novel.title
+                            tvAuthor.text = novel.author
+                            tvCategory.text = novel.category
+                            tvPublished.text = novel.publishedDate
+                            tvPages.text = novel.pageCount.toString()
+                            tvRating.text = novel.rating.toString()
+                            tvDescription.text = novel.description
 
-                    isFavorite = it.isFavorite
-                    updateFavoriteIcon()
+                            Glide.with(this@DetailNovelActivity)
+                                .load(novel.image)
+                                .placeholder(R.drawable.ic_launcher_background)
+                                .into(ivCover)
+
+                            isFavorite = novel.isFavorite
+                            updateFavoriteIcon()
+                        }
+                    }
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.contentLayout.visibility = View.GONE
+                    Toast.makeText(
+                        this,
+                        resource.message ?: "Failed to load book details",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
                 }
             }
         }

@@ -13,7 +13,7 @@ class DetailNovelViewModel @Inject constructor(
     private val novelUseCase: NovelUseCase
 ) : ViewModel() {
 
-    fun getNovelById(id: String) = novelUseCase.getNovelById(id).asLiveData()
+    fun getNovelDetailFromRemote(id: String) = novelUseCase.getNovelDetailFromRemote(id).asLiveData()
 
     fun setFavoriteNovel(id: String, isFavorite: Boolean) {
         viewModelScope.launch {
