@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="features">"\n                Browse thousands of classic books\n                Search anything you're looking for\n                Save your favorites to read later\n                Works offline once you've loaded books\n            "</string>
+    <string name="tech_stack">"\n                Kotlin, Room, Retrofit, Hilt\n                MVVM, Coroutines, Flow\n                Material Design 3\n            "</string>
+    <string name="api_info">Books from gutendex.com</string>
+    <string name="developer">Made by The Lazy Project</string>
+    <string name="app_description">A simple app to read classic literature from Project Gutenberg. Free books, no ads, works offline.</string>
+    <string name="app_version">Version %1$s</string>
+    <string name="app_build_tyoe">Build: %1$s</string>
+</resources>
