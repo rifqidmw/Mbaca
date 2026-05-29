@@ -72,22 +72,11 @@ class NovelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(novel: Novel) {
             binding.apply {
-                // Set title
                 tvTitle.text = novel.title
-
-                // Set author with "by" prefix
                 tvAuthor.text = "by ${novel.author}"
-
-                // Set category in Chip
                 tvCategory.text = novel.category
-
-                // Set rating with star symbol
                 tvRating.text = "★ ${novel.rating}"
-
-                // Show/hide favorite indicator
                 iconFavorite.visibility = if (novel.isFavorite) View.VISIBLE else View.GONE
-
-                // Load image with modern transitions
                 Glide.with(itemView.context)
                     .load(novel.image)
                     .placeholder(android.R.drawable.ic_menu_gallery)
@@ -96,7 +85,6 @@ class NovelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     .centerCrop()
                     .into(ivCover)
 
-                // Set click listener on card
                 root.setOnClickListener {
                     onItemClick?.invoke(novel)
                 }

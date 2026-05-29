@@ -83,8 +83,8 @@ class NovelUiAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
                 Glide.with(itemView.context)
                     .load(novel.image)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.ic_menu_gallery)
                     .transition(DrawableTransitionOptions.withCrossFade(300))
                     .centerCrop()
                     .into(ivCover)

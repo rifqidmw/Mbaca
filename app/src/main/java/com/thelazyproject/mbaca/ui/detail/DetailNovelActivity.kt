@@ -67,7 +67,8 @@ class DetailNovelActivity : AppCompatActivity() {
 
                             Glide.with(this@DetailNovelActivity)
                                 .load(novel.image)
-                                .placeholder(R.drawable.ic_launcher_background)
+                                .placeholder(android.R.drawable.ic_menu_gallery)
+                                .error(android.R.drawable.ic_menu_gallery)
                                 .into(ivCover)
 
                             isFavorite = novel.isFavorite
