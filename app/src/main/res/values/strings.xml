@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Mbaca</string>
-    <string name="title_dynamicfeature">Chat</string>
     <string name="features">"\n                Browse thousands of classic books\n                Search anything you're looking for\n                Save your favorites to read later\n                Works offline once you've loaded books\n            "</string>
     <string name="tech_stack">"\n                Kotlin, Room, Retrofit, Hilt\n                MVVM, Coroutines, Flow\n                Material Design 3\n            "</string>
     <string name="api_info">Books from gutendex.com</string>

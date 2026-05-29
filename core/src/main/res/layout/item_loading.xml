@@ -19,7 +19,6 @@
         android:padding="24dp"
         android:gravity="center">
 
-        <!-- Modern Circular Progress Indicator -->
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -29,7 +28,6 @@
             app:trackCornerRadius="2dp"
             app:indicatorColor="?attr/colorPrimary" />
 
-        <!-- Loading Text with Material Typography -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Book Cover with Modern Styling -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardCover"
             android:layout_width="90dp"
@@ -38,11 +37,10 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/book_cover"
-                tools:src="@drawable/ic_launcher_background" />
+                app:src="@drawable/ic_launcher_background" />
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Title with Modern Typography -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
@@ -59,15 +57,14 @@
             app:layout_constraintTop_toTopOf="@id/cardCover"
             tools:text="The Great Gatsby" />
 
-        <!-- Author with Icon -->
         <ImageView
             android:id="@+id/iconAuthor"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginTop="8dp"
             android:src="@android:drawable/ic_menu_edit"
-            android:tint="?attr/colorOnSurfaceVariant"
             android:contentDescription="@string/author"
+            app:tint="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -86,7 +83,6 @@
             app:layout_constraintBottom_toBottomOf="@id/iconAuthor"
             tools:text="by F. Scott Fitzgerald" />
 
-        <!-- Category Chip with Modern Styling -->
         <com.google.android.material.chip.Chip
             android:id="@+id/tvCategory"
             style="@style/Widget.Material3.Chip.Assist"
@@ -107,15 +103,14 @@
             app:layout_constraintTop_toBottomOf="@id/iconAuthor"
             tools:text="Fiction" />
 
-        <!-- Rating with Star Icon -->
         <ImageView
             android:id="@+id/iconRating"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginTop="12dp"
             android:src="@android:drawable/star_on"
-            android:tint="?attr/colorTertiary"
             android:contentDescription="@string/rating"
+            app:tint="?attr/colorTertiary"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
             app:layout_constraintTop_toBottomOf="@id/tvCategory" />
 
@@ -133,15 +128,14 @@
             app:layout_constraintBottom_toBottomOf="@id/iconRating"
             tools:text="★ 4.5" />
 
-        <!-- Favorite Indicator (Optional) -->
         <ImageView
             android:id="@+id/iconFavorite"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@android:drawable/star_big_on"
-            android:tint="?attr/colorError"
             android:visibility="gone"
             android:contentDescription="@string/favorite"
+            app:tint="?attr/colorError"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvTitle"
             tools:visibility="visible" />
