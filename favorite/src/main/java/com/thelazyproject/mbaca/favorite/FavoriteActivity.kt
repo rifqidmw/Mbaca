@@ -79,4 +79,9 @@ class FavoriteActivity : AppCompatActivity() {
         finish()
         return true
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        novelAdapter.onItemClick = null
+    }
 }

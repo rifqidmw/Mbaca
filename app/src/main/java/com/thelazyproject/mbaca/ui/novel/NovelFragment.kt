@@ -30,6 +30,8 @@ class NovelFragment : Fragment() {
     private val viewModel: NovelViewModel by viewModels()
     private lateinit var novelAdapter: NovelUiAdapter
     private var isLoadingMore = false
+    private var scrollListener: RecyclerView.OnScrollListener? = null
+    private var textWatcher: TextWatcher? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,27 +55,28 @@ class NovelFragment : Fragment() {
         novelAdapter = NovelUiAdapter()
         val layoutManager = LinearLayoutManager(requireContext())
 
+        scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (!isLoadingMore && dy > 0) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 3
+                        && firstVisibleItemPosition >= 0) {
+                        isLoadingMore = true
+                        viewModel.loadMoreNovels()
+                    }
+                }
+            }
+        }
+
         binding.rvNovels.apply {
             this.layoutManager = layoutManager
             adapter = novelAdapter
-
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val visibleItemCount = layoutManager.childCount
-                    val totalItemCount = layoutManager.itemCount
-                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-
-                    if (!isLoadingMore && dy > 0) {
-                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 3
-                            && firstVisibleItemPosition >= 0) {
-                            isLoadingMore = true
-                            viewModel.loadMoreNovels()
-                        }
-                    }
-                }
-            })
+            scrollListener?.let { addOnScrollListener(it) }
         }
 
         novelAdapter.onItemClick = { novel ->
@@ -81,25 +84,20 @@ class NovelFragment : Fragment() {
         }
     }
 
-    /**
-     * Setup reactive search with automatic debounce
-     * Search is triggered automatically after user stops typing (500ms delay)
-     */
     private fun setupReactiveSearch() {
-        // TextWatcher for reactive search
-        binding.etSearch.addTextChangedListener(object : TextWatcher {
+        textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.ivClearSearch.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
-                // Update search query in ViewModel (triggers reactive search automatically)
                 viewModel.updateSearchQuery(s?.toString() ?: "")
             }
 
             override fun afterTextChanged(s: Editable?) {}
-        })
+        }
 
-        // Keep manual search on Enter key press
+        binding.etSearch.addTextChangedListener(textWatcher)
+
         binding.etSearch.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                 (event?.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -121,9 +119,6 @@ class NovelFragment : Fragment() {
         }
     }
 
-    /**
-     * Observe novels using StateFlow (reactive programming)
-     */
     private fun observeNovels() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -187,6 +182,11 @@ class NovelFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        textWatcher?.let { binding.etSearch.removeTextChangedListener(it) }
+        textWatcher = null
+        scrollListener?.let { binding.rvNovels.removeOnScrollListener(it) }
+        scrollListener = null
+        novelAdapter.onItemClick = null
         _binding = null
     }
 }

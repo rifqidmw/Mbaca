@@ -68,13 +68,16 @@ object NavigationHelper {
             val request = SplitInstallRequest.newBuilder()
                 .addModule(moduleChat)
                 .build()
+
+            val appContext = context.applicationContext
+
             splitInstallManager.startInstall(request)
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Success installing module", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, "Success installing module", Toast.LENGTH_SHORT).show()
                     navigateToFavorite(context)
                 }
                 .addOnFailureListener {
-                    Toast.makeText(context, "Error installing module", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, "Error installing module", Toast.LENGTH_SHORT).show()
                 }
         }
     }

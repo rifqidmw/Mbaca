@@ -86,6 +86,8 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        recentAdapter.onItemClick = null
+        popularAdapter.onItemClick = null
         _binding = null
     }
 }

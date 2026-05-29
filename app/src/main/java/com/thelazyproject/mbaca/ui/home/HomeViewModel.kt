@@ -11,7 +11,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(novelUseCase: NovelUseCase) : ViewModel() {
 
-    // Transform domain models to UI models
     val novels = novelUseCase.getAllNovels()
         .map { resource ->
             when (resource) {
