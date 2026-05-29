@@ -68,6 +68,7 @@ feature-delivery-ktx = { group = "com.google.android.play", name = "feature-deli
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 sqlcipher-android = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "sqlcipher" }
 androidx-sqlite = { group = "androidx.sqlite", name = "sqlite", version = "2.4.0" }
+androidx-viewbinding = { group = "androidx.databinding", name = "viewbinding", version.ref = "agp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

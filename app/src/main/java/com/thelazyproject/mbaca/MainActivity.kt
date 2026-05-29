@@ -1,8 +1,10 @@
 package com.thelazyproject.mbaca
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.thelazyproject.mbaca.core.utils.NavigationHelper
 import com.thelazyproject.mbaca.databinding.ActivityMainBinding
 import com.thelazyproject.mbaca.ui.about.AboutFragment
@@ -14,6 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        SplitCompat.install(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
