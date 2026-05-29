@@ -38,3 +38,4 @@ class DatabaseModule {
     fun provideNovelDao(database: NovelDatabase): NovelDao = database.novelDao()
 }
 
+

@@ -94,13 +94,6 @@
     volatile <fields>;
 }
 
-# SQLCipher
--keep class net.sqlcipher.** { *; }
--keep class net.sqlcipher.database.** { *; }
-
-# Certificate Pinning
--keep class com.thelazyproject.mbaca.core.di.SSLCertificatePinner { *; }
-
 # Remove logging in release
 -assumenosideeffects class android.util.Log {
     public static *** d(...);

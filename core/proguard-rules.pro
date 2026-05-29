@@ -13,10 +13,6 @@
 -keep @androidx.room.Entity class *
 -dontwarn androidx.room.paging.**
 
-# SQLCipher
--keep class net.sqlcipher.** { *; }
--keep class net.sqlcipher.database.** { *; }
-
 # Retrofit & OkHttp
 -keepattributes Signature, InnerClasses, EnclosingMethod
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
