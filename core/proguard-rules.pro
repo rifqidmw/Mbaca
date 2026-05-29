@@ -20,7 +20,4 @@
     @retrofit2.http.* <methods>;
 }
 
-# Certificate Pinning
--keep class okhttp3.CertificatePinner { *; }
--keep class okhttp3.CertificatePinner$Pin { *; }
 
